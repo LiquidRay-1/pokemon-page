@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+    <link rel="stylesheet" href="../css/pokemon.css">
+</head>
+<body>
+    <h1>Pokédex</h1>
+    <input type="text" id="search-input" placeholder="Buscar Pokémon...">
+    <div id="pokemon-list" class="pokedex-grid"></div>
+    <div id="pagination">
+        <button id="prev-btn" disabled>Anterior</button>
+        <button id="next-btn">Siguiente</button>
+    </div>
+    <script src="../javascript/data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchPokemon();
+            document.getElementById('search-input').addEventListener('input', searchPokemon);
+            document.getElementById('prev-btn').addEventListener('click', () => changePage(-1));
+            document.getElementById('next-btn').addEventListener('click', () => changePage(1));
+        });
+    </script>
+</body>
+</html>

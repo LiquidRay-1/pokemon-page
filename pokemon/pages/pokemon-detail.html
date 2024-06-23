@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Pokémon</title>
+    <link rel="stylesheet" href="../css/pokemon-detail.css">
+</head>
+<body>
+    <h1>Detalle del Pokémon</h1>
+    <div id="pokemon-detail"></div>
+    <script src="../javascript/data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pokemonId = urlParams.get('id');
+            if (pokemonId) {
+                fetchPokemonDetail(pokemonId);
+            }
+        });
+    </script>
+</body>
+</html>

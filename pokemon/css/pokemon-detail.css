@@ -37,6 +37,17 @@ h1 {
     margin-top: 20px;
 }
 
+.pokemon-info .type-icons {
+    display: flex;
+    gap: 10px; /* Espacio entre los iconos */
+    margin-top: 10px;
+}
+
+.pokemon-info .type-icons img {
+    width: 144px; /* Ancho del icono de tipo */
+    height: 32px; /* Altura del icono de tipo */
+}
+
 #pokemon-moves {
     margin: 20px auto;
     width: 80%;

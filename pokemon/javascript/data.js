@@ -1,8 +1,10 @@
-// data.js
+// declaraciones varias
 
 let currentPage = 1;
 const limit = 25;
 let allPokemon = [];
+
+// <--------------------------------------------------------------------------------------------->
 
 // Función para obtener datos de Pokémon desde la PokéAPI
 async function fetchPokemon(page = 1) {
@@ -19,6 +21,8 @@ async function fetchPokemon(page = 1) {
 
     displayPokemon(pokemonDetails);
 }
+
+// <--------------------------------------------------------------------------------------------->
 
 // Función para mostrar la lista de Pokémon en la página de pokemon.html
 function displayPokemon(pokemonList) {
@@ -51,6 +55,8 @@ function displayPokemon(pokemonList) {
     }
 }
 
+// <--------------------------------------------------------------------------------------------->
+
 // Función para aplicar efecto de inclinación
 function tiltEffect(e, element) {
     const rect = element.getBoundingClientRect();
@@ -76,12 +82,16 @@ function resetTilt(element) {
     element.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
 }
 
+// <--------------------------------------------------------------------------------------------->
+
 // Función para cambiar de página
 function changePage(direction) {
     currentPage += direction;
     fetchPokemon(currentPage);
     document.getElementById('prev-btn').disabled = currentPage === 1;
 }
+
+// <--------------------------------------------------------------------------------------------->
 
 // Función para buscar Pokémon
 async function searchPokemon(event) {
@@ -105,6 +115,30 @@ async function searchPokemon(event) {
         displayPokemon(pokemonDetails);
     }
 }
+
+// <--------------------------------------------------------------------------------------------->
+
+// Mapa de los tipos a los nombres de los archivos de imagen
+const typeIconMap = {
+    bug: "BugIC_BDSP.png",
+    dark: "DarkIC_BDSP.png",
+    dragon: "DragonIC_BDSP.png",
+    electric: "ElectricIC_BDSP.png",
+    fairy: "FairyIC_BDSP.png",
+    fighting: "FightingIC_BDSP.png",
+    fire: "FireIC_BDSP.png",
+    flying: "FlyingIC_BDSP.png",
+    ghost: "GhostIC_BDSP.png",
+    ground: "GroundIC_BDSP.png",
+    ice: "IceIC_BDSP.png",
+    normal: "NormalIC_BDSP.png",
+    poison: "PoisonIC_BDSP.png",
+    psychic: "PsychicIC_BDSP.png",
+    rock: "RockIC_BDSP.png",
+    steel: "SteelIC_BDSP.png",
+    water: "WaterIC_BDSP.png",
+    stellar: "StellarIC_SV.png" // Considerando el tipo especial 'Stellar'
+};
 
 // Función para obtener detalles de un Pokémon específico
 async function fetchPokemonDetail(pokemonId) {
@@ -136,14 +170,32 @@ function displayPokemonDetail(pokemon) {
     // Mostrar información básica
     const pokemonInfo = document.createElement('div');
     pokemonInfo.classList.add('pokemon-info');
+
     pokemonInfo.innerHTML = `
         <p>Nombre: ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
         <p>Número: ${pokemon.id}</p>
         <p>Altura: ${pokemon.height / 10} m</p>
         <p>Peso: ${pokemon.weight / 10} kg</p>
-        <p>Tipos: ${pokemon.types.map(type => type.type.name).join(', ')}</p>
-        <p>Habilidades: ${pokemon.abilities.map(ability => ability.ability.name).join(', ')}</p>
     `;
+    
+    // Crear contenedor para los iconos de tipo
+    const typeIcons = document.createElement('div');
+    typeIcons.classList.add('type-icons');
+
+    // Añadir iconos de tipo
+    pokemon.types.forEach(typeInfo => {
+        const typeName = typeInfo.type.name;
+        const typeIconFileName = typeIconMap[typeName];
+
+        if (typeIconFileName) {
+            const typeIcon = document.createElement('img');
+            typeIcon.src = `../assets/img/${typeIconFileName}`;
+            typeIcon.alt = typeName;
+            typeIcons.appendChild(typeIcon);
+        }
+    });
+
+    pokemonInfo.appendChild(typeIcons);
     pokemonDetailDiv.appendChild(pokemonInfo);
 
     // Mostrar movimientos en la tabla

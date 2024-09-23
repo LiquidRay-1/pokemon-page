@@ -117,40 +117,25 @@ async function fetchPokemonDetail(pokemonId) {
 function displayPokemonDetail(pokemon) {
     const pokemonDetailDiv = document.getElementById('pokemon-detail');
 
+    // Mostrar imagen principal
     const pokemonImage = document.createElement('img');
     pokemonImage.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemon.id}.gif`;
     pokemonImage.alt = pokemon.name;
     pokemonImage.classList.add('pokemon-image');
-
-    const shinyImage = document.createElement('img');
-    shinyImage.src = pokemon.sprites.front_shiny;
-    shinyImage.alt = `${pokemon.name} shiny`;
-    shinyImage.classList.add('pokemon-shiny');
-
     pokemonDetailDiv.appendChild(pokemonImage);
-    pokemonDetailDiv.appendChild(shinyImage);
 
-    if (pokemon.sprites.front_female || pokemon.sprites.front_shiny_female) {
-        if (pokemon.sprites.front_female) {
-            const femaleImage = document.createElement('img');
-            femaleImage.src = pokemon.sprites.front_female;
-            femaleImage.alt = `${pokemon.name} hembra`;
-            femaleImage.classList.add('pokemon-shiny');
-            pokemonDetailDiv.appendChild(femaleImage);
-        }
-
-        if (pokemon.sprites.front_shiny_female) {
-            const femaleShinyImage = document.createElement('img');
-            femaleShinyImage.src = pokemon.sprites.front_shiny_female;
-            femaleShinyImage.alt = `${pokemon.name} hembra shiny`;
-            femaleShinyImage.classList.add('pokemon-shiny');
-            pokemonDetailDiv.appendChild(femaleShinyImage);
-        }
+    // Mostrar imagen shiny
+    if (pokemon.sprites.front_shiny) {
+        const shinyImage = document.createElement('img');
+        shinyImage.src = pokemon.sprites.front_shiny;
+        shinyImage.alt = `${pokemon.name} shiny`;
+        shinyImage.classList.add('pokemon-shiny');
+        pokemonDetailDiv.appendChild(shinyImage);
     }
 
+    // Mostrar información básica
     const pokemonInfo = document.createElement('div');
     pokemonInfo.classList.add('pokemon-info');
-
     pokemonInfo.innerHTML = `
         <p>Nombre: ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
         <p>Número: ${pokemon.id}</p>
@@ -159,8 +144,38 @@ function displayPokemonDetail(pokemon) {
         <p>Tipos: ${pokemon.types.map(type => type.type.name).join(', ')}</p>
         <p>Habilidades: ${pokemon.abilities.map(ability => ability.ability.name).join(', ')}</p>
     `;
-
     pokemonDetailDiv.appendChild(pokemonInfo);
+
+    // Mostrar movimientos en la tabla
+    displayPokemonMoves(pokemon);
+}
+
+// Función para mostrar los movimientos en la tabla
+function displayPokemonMoves(pokemon) {
+    const levelMovesElement = document.getElementById('level-moves');
+    const tmMovesElement = document.getElementById('tm-moves');
+
+    const levelMoves = pokemon.moves
+        .filter(move => move.version_group_details.some(detail => detail.move_learn_method.name === 'level-up'))
+        .map(move => move.move.name);
+
+    const tmMoves = pokemon.moves
+        .filter(move => move.version_group_details.some(detail => detail.move_learn_method.name === 'machine'))
+        .map(move => move.move.name);
+
+    // Mostrar movimientos por nivel
+    levelMoves.forEach(move => {
+        const moveElement = document.createElement('div');
+        moveElement.textContent = move;
+        levelMovesElement.appendChild(moveElement);
+    });
+
+    // Mostrar movimientos por MT/MO
+    tmMoves.forEach(move => {
+        const moveElement = document.createElement('div');
+        moveElement.textContent = move;
+        tmMovesElement.appendChild(moveElement);
+    });
 }
 
 // Llamar la función fetchPokemon si estamos en la página correcta

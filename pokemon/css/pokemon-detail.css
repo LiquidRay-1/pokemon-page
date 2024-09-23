@@ -36,3 +36,44 @@ h1 {
 .pokemon-info {
     margin-top: 20px;
 }
+
+#pokemon-moves {
+    margin: 20px auto;
+    width: 80%;
+}
+
+#pokemon-moves .table-container {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#pokemon-moves .moves-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1; /* Hacer que ambas columnas ocupen el mismo espacio */
+    padding: 10px;
+    box-sizing: border-box;
+    border-right: 1px solid #ddd; /* Separación entre columnas */
+}
+
+#pokemon-moves .moves-column:last-child {
+    border-right: none; /* Quitar la última separación */
+}
+
+#pokemon-moves .moves-column h3 {
+    margin: 0;
+    padding: 10px 0;
+    width: 100%; /* Que ocupe todo el ancho de la columna */
+    background-color: #f2f2f2; /* Fondo para distinguir el encabezado */
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px; /* Tamaño del texto */
+}
+
+#pokemon-moves .moves-column div {
+    margin: 5px 0; /* Espacio entre los movimientos */
+}
